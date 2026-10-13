@@ -89,3 +89,4 @@ async def analyze_resume(
 @app.get("/")
 def home():
     return {"status": "Backend running fine!"}
+
