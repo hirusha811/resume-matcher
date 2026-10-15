@@ -28,4 +28,29 @@ if st.button("Analyze Resume", type="primary"):
 
                     st.success("Analyze successfully")
 
+                    score = result.get("match_score", 0)
+                    st.metric(label="Job Match Score", value=f"{score}%")
+
+                    st.subheader("The Good Strenght in Resume")
+                    for strength in result.get("strength", []):
+                        st.write(f"- {strength}")
                     
+
+                    st.subheader("Missing Skills")
+                    for skill in result.get("missing_skills", []):
+                        st.write(f"- {skills}")
+                    
+                    st.subheader("HR summary feedback")
+                    st.write(result.get("ssummery_feedback", ""))
+                
+                else:
+                    error_detail = response.json().get("detail", "Error")
+                    st.error(f"Server Error: {error_detail}")
+                
+            except requests.exceptions.ConnectionError:
+                st.error("Backend Server එකට සම්බන්ධ වීමට නොහැකි විය! කරුණාකර `uvicorn main:app --reload` command එක දීලා Backend එක Run කර ඇත්දැයි පරීක්ෂා කරන්න.")
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
+    else:
+
+        st.warning("You have to upload both ones.")
